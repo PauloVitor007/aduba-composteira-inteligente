@@ -2,87 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Maria Composteira - Earthy Organic Theme */
+    --background: 45 30% 96%;
+    --foreground: 25 40% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 45 35% 98%;
+    --card-foreground: 25 40% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 45 35% 98%;
+    --popover-foreground: 25 40% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Deep Forest Green */
+    --primary: 150 45% 28%;
+    --primary-foreground: 45 30% 96%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Warm Earth Brown */
+    --secondary: 25 35% 30%;
+    --secondary-foreground: 45 30% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted - Soft Sage */
+    --muted: 80 15% 88%;
+    --muted-foreground: 25 25% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Fresh Leaf Green */
+    --accent: 120 40% 45%;
+    --accent-foreground: 45 30% 96%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 30 20% 85%;
+    --input: 30 20% 85%;
+    --ring: 150 45% 28%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Custom Design Tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(150 45% 28%) 0%, hsl(120 40% 35%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(45 35% 98%) 0%, hsl(45 30% 94%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(150 45% 28%) 0%, hsl(150 40% 20%) 100%);
+    
+    --shadow-soft: 0 4px 20px -4px hsl(25 35% 30% / 0.1);
+    --shadow-card: 0 8px 30px -8px hsl(25 35% 30% / 0.15);
+    --shadow-glow: 0 0 40px hsl(120 40% 45% / 0.2);
+
+    /* Sensor Colors */
+    --sensor-humidity: 200 70% 50%;
+    --sensor-temperature: 15 85% 55%;
+    --sensor-ph: 280 60% 55%;
+    --sensor-rotation: 120 50% 40%;
+    --sensor-capacity: 45 80% 50%;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 25 30% 8%;
+    --foreground: 45 30% 92%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 25 25% 12%;
+    --card-foreground: 45 30% 92%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 25 25% 12%;
+    --popover-foreground: 45 30% 92%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 120 40% 45%;
+    --primary-foreground: 25 30% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 30 25% 25%;
+    --secondary-foreground: 45 30% 92%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 25 20% 18%;
+    --muted-foreground: 45 20% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 150 45% 35%;
+    --accent-foreground: 45 30% 92%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 25 20% 20%;
+    --input: 25 20% 20%;
+    --ring: 120 40% 45%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +113,89 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Nunito', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply backdrop-blur-md bg-card/80 border border-border/50;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .sensor-humidity {
+    --sensor-color: hsl(var(--sensor-humidity));
+  }
+
+  .sensor-temperature {
+    --sensor-color: hsl(var(--sensor-temperature));
+  }
+
+  .sensor-ph {
+    --sensor-color: hsl(var(--sensor-ph));
+  }
+
+  .sensor-rotation {
+    --sensor-color: hsl(var(--sensor-rotation));
+  }
+
+  .sensor-capacity {
+    --sensor-color: hsl(var(--sensor-capacity));
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-xl font-semibold 
+           transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold 
+           transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  .card-sensor {
+    @apply rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] 
+           shadow-card bg-card border border-border/30;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-border bg-card/50 
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
+           transition-all duration-200 placeholder:text-muted-foreground/60;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+           hover:bg-accent/20 text-foreground/70 hover:text-foreground;
+  }
+
+  .nav-item.active {
+    @apply bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground;
   }
 }

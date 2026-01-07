@@ -1,10 +1,11 @@
-// db-connect.js
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-// URI
-const uri = "mongodb+srv://admin:italo12345@tsip4.qhry65h.mongodb.net/?appName=TSIP4";
+// CORREÇÃO 1: Voltei para o endereço 'tsip4' que sabemos que existe
+// Se você criou o usuário novo, mude 'admin' para o nome do seu usuário novo
+const MONGO_URI = "mongodb+srv://admin:italo123@tsip4.qhry65h.mongodb.net/?retryWrites=true&w=majority&appName=TSIP4";
 
-const client = new MongoClient(uri, {
+// CORREÇÃO 2: Mudei de 'uri' para 'MONGO_URI' para bater com o nome lá de cima
+const client = new MongoClient(MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,

@@ -11,8 +11,8 @@ export default defineConfig({
     },
   },
   server: {
-    host: "::", // Permite acesso externo no Codespaces
-    port: 5173,
+    host: "::",
+    port: 8080,
     proxy: {
       // Toda vez que o site chamar "/api", o Vite joga para o servidor na porta 3000
       '/api': {

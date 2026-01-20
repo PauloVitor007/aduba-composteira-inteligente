@@ -1,9 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface User {
-  email: string;
-  id?: string;
-}
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AuthContextType {
   user: User | null;
@@ -11,36 +8,43 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, deviceId?: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  session: any | null;
+  session: Session | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user_aduba');
-    if (savedUser) setUser(JSON.parse(savedUser));
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
-      // NOTE AQUI: Agora chamamos apenas '/api/signin'
-      // O Vite vai transformar isso em 'http://localhost:3000/signin' automaticamente
-      const response = await fetch('/api/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Erro ao entrar');
-
-      const userData = { email, id: data.user?.id };
-      setUser(userData);
-      localStorage.setItem('user_aduba', JSON.stringify(userData));
+      if (error) throw error;
       return { error: null };
     } catch (err: any) {
       console.error("Erro Login:", err);
@@ -50,19 +54,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (email: string, password: string, deviceId?: string) => {
     try {
-      // AQUI TAMBÉM: '/api/signup'
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, deviceId }),
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            device_id: deviceId
+          }
+        }
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Erro ao cadastrar');
-
-      const userData = { email };
-      setUser(userData);
-      localStorage.setItem('user_aduba', JSON.stringify(userData));
+      if (error) throw error;
       return { error: null };
     } catch (err: any) {
       console.error("Erro Cadastro:", err);
@@ -71,12 +75,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
-    setUser(null);
-    localStorage.removeItem('user_aduba');
+    await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, session: null, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );
